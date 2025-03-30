@@ -1,10 +1,8 @@
-from NPCStrategy import NPCStrategy
-from TavernEnvironment import TavernEnvironment
-from APIWrapper import APIWrapper
+from .NPCStrategy import NPCStrategy
 
 class CrushStrategy(NPCStrategy):
 
-    def __init__(self, tavern: TavernEnvironment, wrapper: APIWrapper):
+    def __init__(self, tavern, wrapper):
 
         self.tavern = tavern
         self.wrapper = wrapper

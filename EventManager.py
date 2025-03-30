@@ -1,4 +1,4 @@
-from NPCStrategy import NPCStrategy
+from .Strategies import NPCStrategy
 
 class EventManager:
     def __init__(self):
@@ -10,3 +10,5 @@ class EventManager:
     def notify_observers(self, event: str):
         for observer in self.observers:
             observer.update(event)
+
+    

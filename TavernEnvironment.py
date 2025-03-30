@@ -1,6 +1,6 @@
-from GameState import GameState
-from EventManager import EventManager
-from NPCStrategy import NPCStrategy
+from .GameState import GameState
+from .EventManager import EventManager
+from .Strategies import NPCStrategy
 
 class TavernEnvironment:
     _instance = None
@@ -18,6 +18,9 @@ class TavernEnvironment:
     def unlock_npc(self, npc_name: str):
         self.game_state.unlock_npc(npc_name)
         self.event_manager.notify_observers(npc_name)
+
+    def is_npc_unlocked(self, npc_name: str):
+       return(npc_name in self.game_state.get_unlocked_npcs())
 
     def set_artifact(self, artifact: str):
         self.game_state.set_artifact(artifact)

@@ -1,6 +1,7 @@
 import time
-from mistralai import Mistral
 import os
+from mistralai import Mistral
+
 
 api_key = os.environ["MISTRAL_API_KEY"]
 model = "mistral-small-latest"

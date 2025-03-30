@@ -7,6 +7,9 @@ class GameState:
     def unlock_npc(self, npc_name: str):
         self.unlocked_npcs.add(npc_name)
 
+    def get_unlocked_npcs(self):
+        return self.unlocked_npcs
+
     def set_artifact(self, artifact: str):
         self.current_artifact = artifact
         

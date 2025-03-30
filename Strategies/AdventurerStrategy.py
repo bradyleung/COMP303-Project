@@ -1,6 +1,4 @@
-from NPCStrategy import NPCStrategy
-from TavernEnvironment import TavernEnvironment
-from APIWrapper import APIWrapper
+from .NPCStrategy import NPCStrategy
 
 class AdventurerStrategy(NPCStrategy):
     """ 
@@ -8,7 +6,7 @@ class AdventurerStrategy(NPCStrategy):
     Acts as an observer on the 
     """
 
-    def __init__(self, tavern: TavernEnvironment, wrapper: APIWrapper):
+    def __init__(self, tavern, wrapper):
         self.tavern = tavern
         self.wrapper = wrapper
 
