@@ -18,7 +18,7 @@ class TavernkeeperStrategy(NPCStrategy):
         
         self.tavern.unlock_npc(npc_name)
 
-        prompt = self._descriptions.get(npc_name) + "You are a playful tavernkeeper in a midieval tavern, introduce the described patron in 50 words or less by paraphrasing their description. "
+        prompt = self._descriptions.get(npc_name) + "You are a playful tavernkeeper in a midieval tavern, introduce the described patron in 40 words or less by paraphrasing their description. "
 
         # Gets a more fixed response that will not repeat itself
         return(self.wrapper.get_response(prompt, 0.2, 0.5, 0.5))

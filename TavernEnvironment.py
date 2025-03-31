@@ -21,6 +21,12 @@ class TavernEnvironment:
 
     def is_npc_unlocked(self, npc_name: str):
        return(npc_name in self.game_state.get_unlocked_npcs())
+    
+    def interacted_with_npc(self, npc_name: str):
+        self.game_state.interacted_with_npc(npc_name)
+
+    def has_interacted(self, npc_name: str):
+        return (npc_name in self.game_state.get_interacted_npcs())
 
     def set_artifact(self, artifact: str):
         self.game_state.set_artifact(artifact)

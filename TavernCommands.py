@@ -29,3 +29,23 @@ class NPC_Command(MenuCommand):
             image = 'snow'
         )]
     
+class No_Command(MenuCommand):
+    """
+    Returns a respective message depending on which NPC you said "No" to. 
+    """
+
+    # Command factory design 
+    def __init__(self, option: str, interact_strategy: NPCStrategy):
+        self.option = option
+        self.interact_strategy = interact_strategy
+
+    # Implementing the execute function for this MenuCommand
+    def execute(self, context, player) -> list[Message]:
+ 
+        return [DialogueMessage(
+            sender = self, 
+            recipient = player,
+            text = self.interact_strategy.interact(self.option),
+            image = 'snow'
+        )]
+    

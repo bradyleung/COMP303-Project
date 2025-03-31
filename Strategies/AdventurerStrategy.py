@@ -22,7 +22,7 @@ class AdventurerStrategy(NPCStrategy):
         assert current_artifact != None, "current_artifact was not passed in"
         
         if not self._is_unlocked: 
-            return "Stay away from me and my precious trophies until you speak to the Tavernkeeper!"
+            return "Hmm... As much as I'd love to tell you of my ventures, I love how the Tavernkeeper introduces me. Go talk to him first!"
         
         else:
             return self._generate_story(current_artifact)
@@ -35,7 +35,6 @@ class AdventurerStrategy(NPCStrategy):
 
         if (event == "Adventurer"):
             self._is_unlocked = True
-            print("Adventurer has been unlocked")
 
 
     def _generate_story(self, current_artifact: str) -> str:
@@ -45,8 +44,10 @@ class AdventurerStrategy(NPCStrategy):
 
         prompt = (
             f"You are a boastful and loud Adventurer in a tavern who loves to tell stories about you obtained your trophies you display. "
-            f"The current trophy on display is: {current_artifact}. Make up a short ~50 word story about this trophy."
+            f"The current trophy on display is: {current_artifact}. Make up a short ~40 word story about this trophy."
         )
+
+        print(prompt)
 
         # Gets a response that should be unpreditable without repeating itself
         return self.wrapper.get_response(prompt, 1.0, 0.8, 0.8)
