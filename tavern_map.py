@@ -158,8 +158,7 @@ class ExampleHouse(Map):
     
     def __init__(self) -> None:
 
-
-        # Getting singleton instances & and one instance of every NPCStrategy
+        # Getting singleton instances & and one instance of CommandFactories
         self.tavern = TavernEnvironment()
         self.wrapper = APIWrapper()
 

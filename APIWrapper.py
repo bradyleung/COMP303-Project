@@ -52,4 +52,4 @@ class APIWrapper:
             return chat_response.choices[0].message.content
 
         except Exception as e:
-            return f"Sorry, I'm busy right now! I'm trying to deal with {str(e)}"
+            return f"Sorry, I'm busy right now! Try again in a few seconds!"

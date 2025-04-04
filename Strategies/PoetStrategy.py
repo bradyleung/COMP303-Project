@@ -10,17 +10,12 @@ class PoetStrategy(NPCStrategy):
 
     def interact(self, theme: str) -> str:
         """
-        Takes as input the theme the user asked and if the NPC is able to be spoken to he will return a poem. 
+        Takes as input the theme the user asked for and generates a poem using the API 
+        Args: The theme the user wants the Poet to write about
+        Returns: A poem using that theme
         """
+
         assert theme != "", "No theme was provided"
-        
-        return self._write_poem(theme)
-
-
-    def _write_poem(self, theme: str) -> str:
-        """
-        Creates a poem with the provided theme using the API
-        """
 
         prompt = f"""STRICTLY FOLLOW ALL INSTRUCTIONS.
         Write a 4 line poem with AT MOST 5 WORDS PER LINE.
@@ -32,4 +27,3 @@ class PoetStrategy(NPCStrategy):
         poem = self.wrapper.get_response(prompt, 0.2, 0.5, 0.5)
     
         return poem
-
