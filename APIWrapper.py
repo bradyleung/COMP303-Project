@@ -2,9 +2,8 @@ import time
 import os
 from mistralai import Mistral
 
-
 api_key = os.environ["MISTRAL_API_KEY"]
-model = "mistral-small-latest"
+model = "mistral-medium-latest"
 
 class APIWrapper:
     _instance = None

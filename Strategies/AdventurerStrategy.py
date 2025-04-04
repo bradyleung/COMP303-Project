@@ -10,10 +10,6 @@ class AdventurerStrategy(NPCStrategy):
         self.tavern = tavern
         self.wrapper = wrapper
 
-        # Set the Adventurer as an observer of the TavernEnvironment
-        self.tavern.add_observer(self)
-        self._is_unlocked = False
-
 
     def interact(self, current_artifact: str) -> str:
         """
@@ -21,20 +17,7 @@ class AdventurerStrategy(NPCStrategy):
         """
         assert current_artifact != None, "current_artifact was not passed in"
         
-        if not self._is_unlocked: 
-            return "Hmm... As much as I'd love to tell you of my ventures, I love how the Tavernkeeper introduces me. Go talk to him first!"
-        
-        else:
-            return self._generate_story(current_artifact)
-
-
-    def update(self, event: str):
-        """ 
-        Reacts to any events from the TavernEnvironment to become interactable
-        """
-
-        if (event == "Adventurer"):
-            self._is_unlocked = True
+        return self._generate_story(current_artifact)
 
 
     def _generate_story(self, current_artifact: str) -> str:
@@ -44,10 +27,10 @@ class AdventurerStrategy(NPCStrategy):
 
         prompt = (
             f"You are a boastful and loud Adventurer in a tavern who loves to tell stories about you obtained your trophies you display. "
-            f"The current trophy on display is: {current_artifact}. Make up a short ~40 word story about this trophy."
+            f"The current trophy on display is: {current_artifact}. Make up a short ~18 word story about this trophy."
         )
 
         print(prompt)
 
         # Gets a response that should be unpreditable without repeating itself
-        return self.wrapper.get_response(prompt, 1.0, 0.8, 0.8)
+        return self.wrapper.get_response(prompt, 0.2, 0.8, 0.8)

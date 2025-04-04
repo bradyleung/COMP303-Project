@@ -7,10 +7,6 @@ class PoetStrategy(NPCStrategy):
         self.tavern = tavern
         self.wrapper = wrapper
 
-        # Set the Poet as an observer of the TavernEnvironment
-        self.tavern.add_observer(self)
-        self._is_unlocked = False
-
 
     def interact(self, theme: str) -> str:
         """
@@ -18,37 +14,22 @@ class PoetStrategy(NPCStrategy):
         """
         assert theme != "", "No theme was provided"
         
-        if not self._is_unlocked: 
-            return "Why would I trust you to help me out? You might steal my work!"
-        
-        else:
-            return self._write_poem(theme)
-
-
-    def update(self, event: str):
-        """ 
-        Reacts to any events from the TavernEnvironment to become interactable
-        """
-
-        if (event == "Poet"):
-            self._is_unlocked = True
-            print("Poet has been unlocked")
+        return self._write_poem(theme)
 
 
     def _write_poem(self, theme: str) -> str:
         """
-        Creates a poem with that theme using the API
+        Creates a poem with the provided theme using the API
         """
 
-        prompt = (
-            f"You're the Poet, who is silly and hopelessly romantic individual who has been writing poems to his crush to try to win her over"
-            f"You asked the guest for a theme and they told you to write a less than 40 word love poem about: {theme}."
-        )
+        prompt = f"""STRICTLY FOLLOW ALL INSTRUCTIONS.
+        Write a 4 line poem with AT MOST 5 WORDS PER LINE.
+        You are the Poet, who is silly and hopelessly romantic individual in a midieval tavern who has been reciting poems to your crush to win her over, to no avail.
+        You have decided to get some help from another guest, suggesting you write a funny love poem about: {theme}.
+        DO NOT EXCEED 5 WORDS PER LINE"""
 
         # Gets a response that should be very creative w/ repetition average
-        poem = self.wrapper.get_response(prompt, 1.0, 0.5, 0.5)
-
-        self.tav2ern.set_poem(poem)
+        poem = self.wrapper.get_response(prompt, 0.2, 0.5, 0.5)
     
         return poem
 

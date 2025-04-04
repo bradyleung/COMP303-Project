@@ -1,6 +1,11 @@
-from .GameState import GameState
-from .EventManager import EventManager
-from .Strategies import NPCStrategy
+from .Enums import PlayerState, NPCNames
+from .imports import *
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from maps.base import Map
+    from tiles.base import MapObject
+    from Player import HumanPlayer
 
 class TavernEnvironment:
     _instance = None
@@ -12,34 +17,21 @@ class TavernEnvironment:
         return cls._instance
 
     def initialize(self):
-        self.game_state = GameState()  # Delegate game state management
-        self.event_manager = EventManager()  # Delegate event management
+        self.artifacts = {
+            "skull": "It appears to be mysterious skull of unknown origin",
+            "dragonhead": "There is a large mounted head of a young dragon", 
+            "feather": "There is a giant feather from from a seemingly large creature",
+            "orb": "It appears to be some sort of mysterious orb pulsing with magical energy"
+            }
 
-    def unlock_npc(self, npc_name: str):
-        self.game_state.unlock_npc(npc_name)
-        self.event_manager.notify_observers(npc_name)
-
-    def is_npc_unlocked(self, npc_name: str):
-       return(npc_name in self.game_state.get_unlocked_npcs())
+        self.current_artifact: str = "skull"
     
-    def interacted_with_npc(self, npc_name: str):
-        self.game_state.interacted_with_npc(npc_name)
-
-    def has_interacted(self, npc_name: str):
-        return (npc_name in self.game_state.get_interacted_npcs())
-
     def set_artifact(self, artifact: str):
-        self.game_state.set_artifact(artifact)
-        self.event_manager.notify_observers(f"artifact_changed:{artifact}")
+        self.current_artifact = artifact
 
     def get_artifact(self) -> str:
-        return self.game_state.get_artifact()
+        return self.current_artifact
+    
+    def get_artifact_description(self) -> str:
+        return self.artifacts.get(self.current_artifact)
 
-    def add_observer(self, observer: NPCStrategy):
-        self.event_manager.add_observer(observer)
-
-    def set_poem(self, poem: str):
-        self.game_state.set_poem(poem)
-
-    def get_poem(self) -> str:
-        return self.game_state.get_poem()

@@ -7,33 +7,17 @@ class CrushStrategy(NPCStrategy):
         self.tavern = tavern
         self.wrapper = wrapper
 
-        # Set the Crush as an observer of the TavernEnvironment
-        self.tavern.add_observer(self)
-        self._is_unlocked = False
-
 
     def interact(self, poem: str) -> str:
         """
-        Takes as input the poem the user asked and if the NPC is able to be spoken to he will return a poem. 
-        """        
-        if not self._is_unlocked: 
-            return "You should talk with the Tavernkeeper first! He'll catch you up to speed."
+        Takes as input the poem and gives a response.
+        """       
         
-        elif poem == "":
-            return "Please go talk to the Poet instead!"
+        if poem == None:            
+            return "Go away, please. You don't seem to have anything to say to me."
         
         else:
             return self._read_poem(poem)
-
-
-    def update(self, event: str):
-        """ 
-        Reacts to any events from the TavernEnvironment to become interactable
-        """
-
-        if (event == "Crush"):
-            self._is_unlocked = True
-            print("Crush has been unlocked")
 
 
     def _read_poem(self, poem: str) -> str:
@@ -41,19 +25,15 @@ class CrushStrategy(NPCStrategy):
         Read a poem using the API
         """
 
-        print(f"The poem provided was: {poem}")
-
-        prompt = (
-            f"You're in a midieval tavern and this man wrote a poem about you. State your opinion about it and be critical: {poem}."
-            f"If its thought it was good begin your response with a 1, if you thought it was bad start with a 0, then give your response in 40 words."
-        )
+        prompt = f"""
+            You are a sarcastic and tired women in a midieval tavern where another regular has a crush on you and recites you poems.
+            You're tired of hearing them but you're not rude enough to tell him to stop. 
+            Give a sarcastic, rude response rating the poem provided and do not exceed 20 words.
+            Poem provided: {poem}"""
+            
 
         # Gets a response that should be very creative w/ repetition average
-        response = self.wrapper.get_response(prompt, 1.0, 0.5, 0.5)
-
-        rating = response[0]
-        print (f"The rating is: {rating}")
-        response = response[1:]
+        response = self.wrapper.get_response(prompt, 0.2, 0.5, 0.5)
 
         return response
 
