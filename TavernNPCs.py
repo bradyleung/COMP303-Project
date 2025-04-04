@@ -72,7 +72,7 @@ class Adventurer(NPC):
         super().__init__(
             name="Adventurer",
             image="player10",
-            encounter_text="Greetings! I am the Adventurer! As you can see, I have my impressive trophies next to me. You can change them though, I have lots in my chest and a story for each!",
+            encounter_text="As you see, I have my impressive trophies next to me each with impressive stories. You can em change out by interacting with them!.",
             facing_direction="down",
             staring_distance = 0,
             bg_music='',
@@ -91,8 +91,16 @@ class Adventurer(NPC):
         player.set_state(PlayerState.TALKING_TO.value, NPCNames.ADVENTURER.value)
 
         command = self.interact_factory.create(self.tavern.get_artifact(), self.strategy)
+        messages = command.execute(player.get_current_room(), player)
 
-        return command.execute(player.get_current_room(), player=player)
+        messages.append(DialogueMessage(
+            sender=self, 
+            recipient=player, 
+            text=self._NPC__encounter_text, 
+            image=self.get_image_name()))
+
+        return messages
+        
     
 ########################################################################################################
 class Scholar(NPC):

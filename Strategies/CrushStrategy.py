@@ -10,19 +10,7 @@ class CrushStrategy(NPCStrategy):
 
     def interact(self, poem: str) -> str:
         """
-        Takes as input the poem and gives a response.
-        """       
-        
-        if poem == None:            
-            return "Go away, please. You don't seem to have anything to say to me."
-        
-        else:
-            return self._read_poem(poem)
-
-
-    def _read_poem(self, poem: str) -> str:
-        """
-        Read a poem using the API
+        Takes as input the saved poem to the user's
         """
 
         prompt = f"""
