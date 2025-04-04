@@ -1,10 +1,8 @@
 import time
 import os
 from mistralai import Mistral
-from dotenv import load_dotenv
 
-
-api_key = os.environ["MISTRAL_API_KEY"]
+api_key = 'tYEtlfhRqC12aqJuC2coO9StjCG2fkim'
 model = "mistral-medium-latest"
 
 class APIWrapper:
