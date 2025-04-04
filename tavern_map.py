@@ -152,8 +152,12 @@ class BlackTable(MapObject):
         
         
 class ExampleHouse(Map):
+    
+    MAIN_ENTRANCE = True
+    
     def __init__(self) -> None:
-        
+
+
         # Getting singleton instances & and one instance of every NPCStrategy
         self.tavern = TavernEnvironment()
         self.wrapper = APIWrapper()
@@ -177,7 +181,7 @@ class ExampleHouse(Map):
         objects: list[tuple[MapObject, Coord]] = []
 
         # add a door
-        door = Door('int_entrance', linked_room="Trottier Town")
+        door = Door('int_entrance', linked_room="Trottier Town", is_main_entrance = True)
         objects.append((door, Coord(14, 7)))
 
         # add a pressure plate
