@@ -34,13 +34,15 @@ class InteractCommand(MenuCommand):
         if talking_to == NPCNames.POET.value:
             player.set_state(PlayerState.POEM.value, response)
 
-        elif talking_to == NPCNames.TAVERNKEEPER.value:
-            unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value, list())
-            
-            if unlocked_npcs.isemptyself.option not in unlocked_npcs:
-                unlocked_npcs.append(self.option)
-
-            player.set_state(PlayerState.UNLOCKED_NPCS.value, unlocked_npcs)
+        # Get current state (handle and handle None/empty cases)
+        current = player.get_state(PlayerState.UNLOCKED_NPCS.value)
+        unlocked_npcs = set(current) if current else set()  # Convert to set
+        
+        # Add new NPC if not present
+        if self.option not in unlocked_npcs:
+            unlocked_npcs.add(self.option)
+            # Save as LIST (JSON-serializable)
+            player.set_state(PlayerState.UNLOCKED_NPCS.value, list(unlocked_npcs))
         
         # Remove the state of who they're talking to after executing. 
         player.set_state(PlayerState.TALKING_TO.value, None)
