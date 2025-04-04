@@ -35,8 +35,11 @@ class InteractCommand(MenuCommand):
             player.set_state(PlayerState.POEM.value, response)
 
         elif talking_to == NPCNames.TAVERNKEEPER.value:
-            unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value, set())
-            unlocked_npcs.add(self.option)
+            unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value, list())
+            
+            if self.option not in unlocked_npcs:
+                unlocked_npcs.add(self.option)
+                
             player.set_state(PlayerState.UNLOCKED_NPCS.value, unlocked_npcs)
         
         # Remove the state of who they're talking to after executing. 

@@ -87,7 +87,7 @@ class ResetStateCommand(ChatCommand):
     
     def execute(self, command_text: str, context: "ExampleHouse", player: HumanPlayer) -> list[Message]: 
         
-        player.set_state(PlayerState.UNLOCKED_NPCS.value, set())
+        player.set_state(PlayerState.UNLOCKED_NPCS.value, list())
         player.set_state(PlayerState.POEM.value, None)
         player.set_state(PlayerState.TALKING_TO.value, None)
 
