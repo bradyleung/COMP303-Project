@@ -168,7 +168,7 @@ class ExampleHouse(Map):
  
         super().__init__(
             name="Example House",
-            description="Welcome to the Tavern",
+            description="Welcome to the Tavern!.",
             size=(15, 15),
             entry_point=Coord(14, 7),
             background_tile_image='tavernfloor1',
