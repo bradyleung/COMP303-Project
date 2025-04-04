@@ -165,8 +165,7 @@ class ExampleHouse(Map):
         self.interact_factory = InteractCommandFactory()
         self.yes_no_factory = YesNoCommandFactory()
         self.change_artifact_factory = ChangeArtifactFactory()
-
-        
+ 
         super().__init__(
             name="Example House",
             description="Welcome to the Tavern",
@@ -277,31 +276,10 @@ class ExampleHouse(Map):
         crush = Crush(tavern=self.tavern, wrapper=self.wrapper, interact_factory=self.interact_factory, yesno_factory=self.yes_no_factory)
         objects.append((crush, Coord(7, 13)))
         
-
-
-
-
         self.npcs = {
-            "Tavernkeeper": tavernkeeper,
-            "Adventurer": adventurer, 
             "Scholar": scholar,
-            "Poet": poet,
-            "Crush": crush
+            "Poet": poet
         }
 
         return objects
     
-
-
-
-# class ScorePressurePlate(PressurePlate):
-#     def __init__(self, image_name='pressure_plate'):
-#         super().__init__(image_name)
-    
-#     def player_entered(self, player) -> list[Message]:
-#         messages = super().player_entered(player)
-
-#         # add score to player
-#         player.set_state("score", player.get_state("score") + 1)
-
-#         return messages

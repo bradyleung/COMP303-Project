@@ -2,9 +2,7 @@ from .NPCStrategy import NPCStrategy
 
 class CrushStrategy(NPCStrategy):
 
-    def __init__(self, tavern, wrapper):
-
-        self.tavern = tavern
+    def __init__(self, wrapper):
         self.wrapper = wrapper
 
 

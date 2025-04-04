@@ -2,9 +2,7 @@ from .NPCStrategy import NPCStrategy
 
 class ScholarStrategy(NPCStrategy):
 
-    def __init__(self, tavern, wrapper):
-
-        self.tavern = tavern
+    def __init__(self, wrapper):
         self.wrapper = wrapper
 
     def interact(self, question: str) -> str:
@@ -14,14 +12,6 @@ class ScholarStrategy(NPCStrategy):
 
         assert question != "", "No question was asked"
         
-        return self._answer_question(question)
-
-
-    def _answer_question(self, question: str) -> str:
-        """
-        Answers the question using the APIWrapper
-        """
-
         prompt =  f"""
             You are the Scholar, a cryptic and mysterious individual who answers questions cryptically.  
             **Rules you MUST follow:**

@@ -2,8 +2,7 @@ from .NPCStrategy import NPCStrategy
 
 class TavernkeeperStrategy(NPCStrategy):
 
-    def __init__(self, tavern, wrapper):
-        self.tavern = tavern
+    def __init__(self, wrapper):
         self.wrapper = wrapper
        
         # Tavernkeeper gets a dictionary to store the descriptions of each customer to be able to describe them

@@ -1,12 +1,3 @@
-from .Enums import PlayerState, NPCNames
-from .imports import *
-
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from maps.base import Map
-    from tiles.base import MapObject
-    from Player import HumanPlayer
-
 class TavernEnvironment:
     _instance = None
 

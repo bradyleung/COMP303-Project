@@ -6,8 +6,7 @@ class AdventurerStrategy(NPCStrategy):
     Acts as an observer on the 
     """
 
-    def __init__(self, tavern, wrapper):
-        self.tavern = tavern
+    def __init__(self, wrapper):
         self.wrapper = wrapper
 
 

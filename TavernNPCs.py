@@ -24,7 +24,7 @@ class Tavernkeeper(NPC, SelectionInterface):
         
         self.tavern = tavern
         self.wrapper = wrapper
-        self.strategy = TavernkeeperStrategy(tavern, wrapper)
+        self.strategy = TavernkeeperStrategy(wrapper)
 
         menu_options = {
             "The Adventurer": interact_factory.create(NPCNames.ADVENTURER.value, self.strategy),
@@ -67,7 +67,7 @@ class Adventurer(NPC):
         self.tavern = tavern
         self.wrapper = wrapper
         self.interact_factory=interact_factory
-        self.strategy = AdventurerStrategy(tavern, wrapper)
+        self.strategy = AdventurerStrategy(wrapper)
 
         super().__init__(
             name="Adventurer",
@@ -109,7 +109,7 @@ class Scholar(NPC):
 
         self.tavern = tavern
         self.wrapper = wrapper
-        self.strategy = ScholarStrategy(tavern, wrapper)
+        self.strategy = ScholarStrategy(wrapper)
 
         super().__init__(
             name="Scholar",
@@ -157,7 +157,7 @@ class Poet(NPC, SelectionInterface):
 
         self.tavern = tavern
         self.wrapper = wrapper
-        self.strategy = PoetStrategy(tavern, wrapper)
+        self.strategy = PoetStrategy(wrapper)
 
         super().__init__(
             name="Poet",
@@ -205,7 +205,7 @@ class Crush(NPC, SelectionInterface):
 
         self.tavern = tavern
         self.wrapper = wrapper
-        self.strategy = CrushStrategy(tavern, wrapper)
+        self.strategy = CrushStrategy(wrapper)
 
         super().__init__(
             name="Crush",
