@@ -37,9 +37,9 @@ class InteractCommand(MenuCommand):
         elif talking_to == NPCNames.TAVERNKEEPER.value:
             unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value, list())
             
-            if self.option not in unlocked_npcs:
-                unlocked_npcs.add(self.option)
-                
+            if unlocked_npcs.isemptyself.option not in unlocked_npcs:
+                unlocked_npcs.append(self.option)
+
             player.set_state(PlayerState.UNLOCKED_NPCS.value, unlocked_npcs)
         
         # Remove the state of who they're talking to after executing. 
@@ -84,7 +84,7 @@ class CrushNoCommand(MenuCommand):
 
     def execute(self, context, player: HumanPlayer):
         
-        self.player.set_state("talking_to", None)
+        player.set_state("talking_to", None)
 
         return [DialogueMessage(
             sender = self, 
