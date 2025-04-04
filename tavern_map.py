@@ -3,6 +3,7 @@ from .imports import *
 from .TavernEnvironment import TavernEnvironment
 from .APIWrapper import APIWrapper
 from .TavernNPCs import *
+from .Enums import PlayerState, NPCNames
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -27,7 +28,7 @@ class ScholarInputCommand(ChatCommand):
     def execute(self, command_text: str, context: "ExampleHouse", player: HumanPlayer) -> list[Message]: 
         
         # Get the player's current state and make sure that they are currently talking to the Scholar
-        talking_to = player.get_state("talking_to")
+        talking_to = player.get_state(PlayerState.TALKING_TO.value)
 
         if talking_to == "Scholar":
 
@@ -57,7 +58,7 @@ class PoetInputCommand(ChatCommand):
     def execute(self, command_text: str, context: "ExampleHouse", player: HumanPlayer) -> list[Message]: 
         
         # Get the player's current state and make sure that they are currently talking to the Scholar
-        talking_to = player.get_state("talking_to")
+        talking_to = player.get_state(PlayerState.TALKING_TO.value)
 
         if talking_to == "Poet":
 
