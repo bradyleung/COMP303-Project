@@ -5,6 +5,7 @@ from .TavernEnvironment import TavernEnvironment
 from .APIWrapper import APIWrapper
 from .TavernNPCs import *
 from .Enums import PlayerState, NPCNames
+from random import choice
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -82,9 +83,10 @@ class PoetInputCommand(ChatCommand):
             # Get the instance of the poet to use his strategies 
             poet = context.npcs.get("Poet")
 
-            strategy = 
+            # Randomly get the strategy for the poet
+            strategy = choice(poet.strategies)
 
-            command = InteractCommand(command_text, poet.strategy)
+            command = InteractCommand(command_text, strategy)
 
             return command.execute(player.get_current_room(), player)
         
