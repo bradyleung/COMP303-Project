@@ -1,5 +1,6 @@
 # Imports
 from .imports import *
+from .ScholarInterpreter import ScholarInterpreter
 from .TavernEnvironment import TavernEnvironment
 from .APIWrapper import APIWrapper
 from .TavernNPCs import *
@@ -32,11 +33,25 @@ class ScholarInputCommand(ChatCommand):
 
         if talking_to == "Scholar":
 
-            command_text = command_text[3:] # Remove "ask" from their input
-            
             # Get the instance of the scholar to use his strategy from the npcs dict
             scholar = context.npcs.get("Scholar")
-            command = InteractCommand(command_text, scholar.strategy)
+            interpreter = ScholarInterpreter(context.wrapper)
+
+            command_text = command_text[3:] # Remove "ask" from their input
+            
+            # If their question is not a question
+            if "?" not in command_text:                
+                command = InteractCommand(command_text, scholar.rude)
+
+            else: 
+                # use the wrapper to determine which strategy to set 
+                understood = interpreter.is_question_understood(command_text)
+                
+                if understood: 
+                    command = InteractCommand(command_text, scholar.mysterious)
+                
+                else:
+                    command = InteractCommand(command_text, scholar.confused)
 
             return command.execute(player.get_current_room(), player)
         
@@ -57,15 +72,18 @@ class PoetInputCommand(ChatCommand):
     
     def execute(self, command_text: str, context: "ExampleHouse", player: HumanPlayer) -> list[Message]: 
         
-        # Get the player's current state and make sure that they are currently talking to the Scholar
+        # Get the player's current state and make sure that they are currently talking to the Poet
         talking_to = player.get_state(PlayerState.TALKING_TO.value)
 
-        if talking_to == "Poet":
+        if talking_to == NPCNames.POET.value:
 
-            command_text = command_text[5:] # Remove "say" from their theme
+            command_text = command_text[5:] # Remove "theme" from their theme
             
-            # Get the instance of the poet to use his strategy from the npcs dict
+            # Get the instance of the poet to use his strategies 
             poet = context.npcs.get("Poet")
+
+            strategy = 
+
             command = InteractCommand(command_text, poet.strategy)
 
             return command.execute(player.get_current_room(), player)
@@ -162,9 +180,10 @@ class ExampleHouse(Map):
         self.tavern = TavernEnvironment()
         self.wrapper = APIWrapper()
 
-        self.interact_factory = InteractCommandFactory()
-        self.yes_no_factory = YesNoCommandFactory()
-        self.change_artifact_factory = ChangeArtifactFactory()
+        self.interactFactory = InteractCommandFactory()
+        self.responseFactory = YesNoCommandFactory()
+        self.artifactFactory = ChangeArtifactFactory()
+
  
         super().__init__(
             name="Example House",
@@ -174,7 +193,6 @@ class ExampleHouse(Map):
             background_tile_image='tavernfloor1',
             chat_commands=[ScholarInputCommand, PoetInputCommand, ResetStateCommand]
         )
-
     
     def get_objects(self) -> list[tuple[MapObject, Coord]]:
         objects: list[tuple[MapObject, Coord]] = []
@@ -188,7 +206,7 @@ class ExampleHouse(Map):
         # objects.append((pressure_plate, Coord(13, 7)))
 
 
-        tavernkeeper = Tavernkeeper(tavern=self.tavern, wrapper=self.wrapper, interact_factory=self.interact_factory)
+        tavernkeeper = Tavernkeeper(tavern=self.tavern, wrapper=self.wrapper, interact_factory=self.interactFactory)
 
         # add the bar for the tavernkeeper to be behind
         counter = TavernCounter(tavernkeeper)
@@ -206,7 +224,6 @@ class ExampleHouse(Map):
         objects.append((table, Coord(6,12)))
         objects.append((table, Coord(7,7)))
         objects.append((table, Coord(6,7)))
-
         
         objects.append((right_chair, Coord(12,13)))
         objects.append((right_chair, Coord(9,13)))
@@ -242,8 +259,6 @@ class ExampleHouse(Map):
         objects.append((blacktable, Coord(2,4)))
         objects.append((blacktable, Coord(4,4)))
 
-       
-
         # add the armorstand to the corner w/ the Adventurer
         armorstand = Armorstand()
         chest = Chest()
@@ -254,14 +269,14 @@ class ExampleHouse(Map):
         trophycarpet = TrophyCarpet()
         objects.append((trophycarpet, Coord(2,10)))
 
-        trophy = Trophy(self.tavern, self.change_artifact_factory)
+        trophy = Trophy(self.tavern, self.artifactFactory)
         objects.append((trophy, Coord(2,11)))
 
         # add the tavernkeeper
         objects.append((tavernkeeper, Coord(10, 0))) 
 
         # add the adventurer
-        adventurer = Adventurer(tavern=self.tavern, wrapper=self.wrapper, interact_factory=self.interact_factory)
+        adventurer = Adventurer(self.tavern, self.wrapper, self.interactFactory)
         objects.append((adventurer, Coord(2, 12)))
 
         # add the scholar
@@ -269,11 +284,11 @@ class ExampleHouse(Map):
         objects.append((scholar, Coord(1, 1)))
 
         # add the poet
-        poet = Poet(tavern=self.tavern, wrapper=self.wrapper, yesno_factory=self.yes_no_factory)
+        poet = Poet(self.tavern,self.wrapper, self.responseFactory)
         objects.append((poet, Coord(6, 0)))
 
         # add the crush
-        crush = Crush(tavern=self.tavern, wrapper=self.wrapper, interact_factory=self.interact_factory, yesno_factory=self.yes_no_factory)
+        crush = Crush(self.tavern, self.wrapper, self.interactFactory, self.responseFactory)
         objects.append((crush, Coord(7, 13)))
         
         self.npcs = {

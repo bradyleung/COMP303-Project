@@ -4,6 +4,7 @@ from .APIWrapper import APIWrapper
 from .Strategies import *
 from .TavernCommands import *
 from .Enums import PlayerState, NPCNames
+from random import choice, random
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -67,19 +68,25 @@ class Adventurer(NPC):
         self.tavern = tavern
         self.wrapper = wrapper
         self.interact_factory=interact_factory
-        self.strategy = AdventurerStrategy(wrapper)
+
+        # Create both possible interactions strategies for the Adventurer to be swapped out on interaction 
+        nostalgic = NostalgicAdventurerStrategy(self.wrapper)
+        regular = RegularAdventurerStrategy(self.wrapper)
+        self.strategies = [nostalgic, regular]
 
         super().__init__(
             name="Adventurer",
             image="player10",
-            encounter_text="As you see, I have my impressive trophies next to me each with impressive stories. You can em change out by interacting with them!.",
+            encounter_text="I've got plenty of trophies in this chest, so you can change em out by interacting with them!",
             facing_direction="down",
             staring_distance = 0,
             bg_music='',
         )
 
+
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
 
+        # Make sure the adventurer is unlocked
         unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value)
         if NPCNames.ADVENTURER.value not in unlocked_npcs:
             return [ChatMessage(
@@ -88,8 +95,11 @@ class Adventurer(NPC):
                 text = "You have not yet unlocked the Adventurer. Speak to the Tavernkeeper to unlock them.",
             )]  
         
+        # Set their state as currently talking to the Adventurer
         player.set_state(PlayerState.TALKING_TO.value, NPCNames.ADVENTURER.value)
 
+        # Decide randomly what strategy to use to get diverse outputs then create the command 
+        self.strategy = choice(self.strategies)
         command = self.interact_factory.create(self.tavern.get_artifact(), self.strategy)
         messages = command.execute(player.get_current_room(), player)
 
@@ -109,7 +119,11 @@ class Scholar(NPC):
 
         self.tavern = tavern
         self.wrapper = wrapper
-        self.strategy = ScholarStrategy(wrapper)
+
+        # Declaring these so they can be used by my ChatCommands that are in the main area 
+        self.confused = ConfusedScholarStrategy(wrapper)
+        self.rude = RudeScholarStrategy(wrapper)
+        self.mysterious = MysteriousScholarStrategy (wrapper)
 
         super().__init__(
             name="Scholar",
@@ -119,7 +133,6 @@ class Scholar(NPC):
             staring_distance = 0,
             bg_music='',
         )
-
 
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
 
@@ -157,7 +170,9 @@ class Poet(NPC, SelectionInterface):
 
         self.tavern = tavern
         self.wrapper = wrapper
-        self.strategy = PoetStrategy(wrapper)
+        good = GoodPoetStrategy(self.wrapper)
+        silly = FunnyPoetStrategy(self.wrapper)
+        self.strategies = [good, silly]
 
         super().__init__(
             name="Poet",
@@ -210,7 +225,7 @@ class Crush(NPC, SelectionInterface):
         super().__init__(
             name="Crush",
             image="crush",
-            encounter_text="Oh, you're not ... him, are you? Please tell me he has a messenger now...\nDo you have something to tell me?..",
+            encounter_text="Oh, you're not ... him, are you? Don't tell me he has a messenger now...\nDo you have something to tell me?..",
             facing_direction="down",
             staring_distance = 0,
             bg_music='',
@@ -257,16 +272,16 @@ class Crush(NPC, SelectionInterface):
 class Trophy(MapObject, SelectionInterface):
     """An interactable trophy that can switch between different artifacts."""
     
-    def __init__(self, tavern: TavernEnvironment, factory: ChangeArtifactFactory):
+    def __init__(self, tavern: TavernEnvironment, artifactFactory: ChangeArtifactFactory):
         super().__init__(f'tile/int_decor/skull', passable=False, z_index=0)
         self.tavern = tavern
         self.__menu_name = "Select an artifact to display:"
     
         self.__menu_options = {
-            "An Unknown Skull": factory.create(self, "skull", tavern),
-            "A Dragon's Head": factory.create(self, "dragonhead", tavern),
-            "A Giant Feather": factory.create(self, "feather", tavern),
-            "A Magical Orb": factory.create(self, "orb", tavern)
+            "An Unknown Skull": artifactFactory.create(self, "skull", tavern),
+            "A Dragon's Head": artifactFactory.create(self, "dragonhead", tavern),
+            "A Giant Feather": artifactFactory.create(self, "feather", tavern),
+            "A Magical Orb": artifactFactory.create(self, "orb", tavern)
         }
 
 

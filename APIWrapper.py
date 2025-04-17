@@ -3,7 +3,7 @@ import os
 from mistralai import Mistral
 
 api_key = 'tYEtlfhRqC12aqJuC2coO9StjCG2fkim'
-model = "mistral-medium-latest"
+model = "mistral-large-latest"
 
 class APIWrapper:
     _instance = None

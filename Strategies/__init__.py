@@ -1,15 +1,19 @@
-from .AdventurerStrategy import AdventurerStrategy
+from .AdventurerStrategies import *
+from .PoetStrategies import *
+from .ScholarStrategies import *
 from .CrushStrategy import CrushStrategy
-from .NPCStrategy import NPCStrategy
-from .PoetStrategy import PoetStrategy
-from .ScholarStrategy import ScholarStrategy
 from .TavernkeeperStrategy import TavernkeeperStrategy
 
+# All the imports I need 
 __all__ = [
-    "AdventurerStrategy",
-    "CrushStrategy",
     "NPCStrategy",
-    "PoetStrategy",
-    "ScholarStrategy",
+    "RegularAdventurerStrategy",
+    "NostalgicAdventurerStrategy",
+    "GoodPoetStrategy",
+    "FunnyPoetStrategy",
+    "MysteriousScholarStrategy",
+    "RudeScholarStrategy",
+    "ConfusedScholarStrategy",
     "TavernkeeperStrategy",
+    "CrushStrategy"
 ]
