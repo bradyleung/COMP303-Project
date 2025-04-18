@@ -268,7 +268,7 @@ class Crush(NPC, SelectionInterface):
         
         if player.get_state(PlayerState.POEM.value) == None:
             text = "Wait... you don't actually have anything to tell me, do you? If that poet didn't put you up to this what are you doing here? Skedaddle."   
-            return DialogueMessage(self, player, text, self.get_image_name())
+            return [DialogueMessage(self, player, text, self.get_image_name())]
 
         
         player.set_state(PlayerState.TALKING_TO.value, NPCNames.CRUSH.value)
