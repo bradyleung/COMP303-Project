@@ -11,10 +11,6 @@ if TYPE_CHECKING:
     from Player import HumanPlayer
 
 class InteractCommand(MenuCommand):
-    """
-    Contructor takes as input the string input for the interaction strategy and the interaction strategy 
-    and returns the message(s) to the user through a DialogueMessage.
-    """
     
     def __init__(self, option: str, interact_strategy: NPCStrategy):
         self.option = option

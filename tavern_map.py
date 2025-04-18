@@ -20,15 +20,18 @@ if TYPE_CHECKING:
 
 ##############################################################################################   
 class ScholarInputCommand(ChatCommand):
+    """Command to ask the Scholar a question after interacting."""
     name = 'ask'
     desc = 'Ask the Scholar any question after interacting with the NPC.'
 
     @classmethod
     def matches(cls, command_text: str) -> bool:
+        """Checks if command starts with 'ask'."""
         return command_text.startswith("ask")
     
     def execute(self, command_text: str, context: "ExampleHouse", player: HumanPlayer) -> list[Message]: 
-        
+        """Processes and responds to Scholar questions."""
+
         # Get the player's current state and make sure that they are currently talking to the Scholar
         talking_to = player.get_state(PlayerState.TALKING_TO.value)
 
@@ -64,15 +67,18 @@ class ScholarInputCommand(ChatCommand):
             )]         
 
 class PoetInputCommand(ChatCommand):
+    """Command to provide a theme for the Poet's poem."""
     name = 'theme'
     desc = "Say the theme for the Poet's poem."
 
     @classmethod
     def matches(cls, command_text: str) -> bool:
+        """Checks if command starts with 'theme'."""
         return command_text.startswith("theme")
     
     def execute(self, command_text: str, context: "ExampleHouse", player: HumanPlayer) -> list[Message]: 
-        
+        """Handles poem theme input for the Poet."""
+
         # Get the player's current state and make sure that they are currently talking to the Poet
         talking_to = player.get_state(PlayerState.TALKING_TO.value)
 
@@ -98,15 +104,17 @@ class PoetInputCommand(ChatCommand):
             )]     
 
 class ResetStateCommand(ChatCommand):
+    """Command to reset all NPC interaction progress."""
     name = 'reset'
     desc = 'Reset all saved progress with NPCs'
 
     @classmethod
     def matches(cls, command_text: str) -> bool:
+        """Checks if command starts with 'reset'."""
         return command_text.startswith("reset")
     
     def execute(self, command_text: str, context: "ExampleHouse", player: HumanPlayer) -> list[Message]: 
-        
+        """Clears all player saved NPC interaction states."""
         player.set_state(PlayerState.UNLOCKED_NPCS.value, list())
         player.set_state(PlayerState.POEM.value, None)
         player.set_state(PlayerState.TALKING_TO.value, None)

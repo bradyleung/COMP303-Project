@@ -2,17 +2,14 @@ from .NPCStrategy import NPCStrategy
 from ..APIWrapper import APIWrapper
 
 class MysteriousScholarStrategy(NPCStrategy):
-    """
-    Used when the interpreter determines that the question posed would be understood by someone in midieval times.
-    """
+    """Answers medieval-appropriate questions cryptically (max 20 words)."""
 
     def __init__(self, wrapper: APIWrapper):
+        """Initialized with an API wrapper for response generation."""
         self.wrapper = wrapper
 
     def interact(self, question: str) -> str:
-        """
-        Used on any interaction that is normal 
-        """
+        """Provides a cryptic answer to a question thats been deemed understandable by the interpreter."""
         
         prompt =  f"""
             You are the Scholar, a cryptic and mysterious individual who answers questions cryptically.  
@@ -31,19 +28,17 @@ class MysteriousScholarStrategy(NPCStrategy):
 
 
 class ConfusedScholarStrategy(NPCStrategy):
-    
+    """Responds to incomprehensible (modern) questions with confusion."""
+
+
     def __init__(self, wrapper: APIWrapper):
+        """Initializes with an API wrapper for response generation."""
         self.wrapper = wrapper
 
 
     def interact(self, question: str) -> str:
-        """
-        Used when the interpreter determines that the user is using terms that would not be known by this midieval scholar. 
-        """
+        """Shows lack of understanding for modern/unfamiliar questions."""
 
-        def __init(self, wrapper):
-            self.wrapper = wrapper
-    
         prompt =  f"""
             You are the Scholar, a cryptic and mysterious individual who answers questions cryptically. 
             Someone has asked you a question that you do not understand as an individual in midieval times. 
@@ -62,17 +57,14 @@ class ConfusedScholarStrategy(NPCStrategy):
 
 
 class RudeScholarStrategy(NPCStrategy):
-    """
-    Used when there was no question actually asked. 
-    """
+    """Scolds users who fail to ask proper questions."""
 
     def __init__(self, wrapper: APIWrapper):
+        """Initializes with an API wrapper for response generation."""
         self.wrapper = wrapper
 
     def interact(self, question: str) -> str:
-        """
-        Used on any interaction that is normal 
-        """
+        """Responds rudely to non question inputs (demands question mark)."""
         
         prompt =  f"""
             You are the Scholar, a cryptic and mysterious individual who answers questions cryptically. However, you were not asked a question and must tell the user you only answer questions.

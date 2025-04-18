@@ -6,9 +6,11 @@ api_key = 'tYEtlfhRqC12aqJuC2coO9StjCG2fkim'
 model = "mistral-large-latest"
 
 class APIWrapper:
+    """Singleton wrapper for Mistral AI API with rate limiting feature."""
     _instance = None
 
     def __new__(cls):
+        """Creates or returns the singleton instance with initialized client."""
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.client = Mistral(api_key=api_key)
@@ -23,12 +25,9 @@ class APIWrapper:
         frequency_penalty: float,
         presence_penalty: float,
     ) -> str:
-        """
-        Sends a prompt to the Mistral AI API and returns the response.
-        Ensures a minimum wait time between requests to avoid rate limits.
-        """
+        """Generates AI response with rate limiting & any required error handling."""
         try:
-            # Calculate the time since the last request
+            # Calculates the time since the last request
             current_time = time.time()
             time_since_last_request = current_time - self.last_request_time
 
@@ -40,7 +39,7 @@ class APIWrapper:
             # Update the last request time
             self.last_request_time = time.time()
 
-            # Make the API request
+            # Then make the API request
             chat_response = self.client.chat.complete(
                 model = model,
                 max_tokens = 80,  # 

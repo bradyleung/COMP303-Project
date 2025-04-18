@@ -2,6 +2,7 @@ from .APIWrapper import APIWrapper
 
 class ScholarInterpreter():
 
+
     def __init__(self, wrapper: APIWrapper):
         self.wrapper = wrapper
 

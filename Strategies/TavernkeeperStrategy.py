@@ -1,8 +1,10 @@
 from .NPCStrategy import NPCStrategy
 
 class TavernkeeperStrategy(NPCStrategy):
+    """Provides playful introductions of tavern patrons."""
 
     def __init__(self, wrapper):
+        """Initializes with patron descriptions and API wrapper."""
         self.wrapper = wrapper
        
         # Tavernkeeper gets a dictionary to store the descriptions of each customer to be able to describe them
@@ -14,7 +16,8 @@ class TavernkeeperStrategy(NPCStrategy):
     }
 
     def interact(self, npc_name: str) -> str:
-        
+        """Generates a brief introduction for the specified patron."""
+
         prompt = f"""
             You are a playful Tavernkeeper in a midieval tavern.
             Introduce the described patron in 20 words or less by paraphrasing their description.

@@ -2,17 +2,15 @@ from .NPCStrategy import NPCStrategy
 from ..APIWrapper import APIWrapper
 
 class GoodPoetStrategy(NPCStrategy): 
+    """Attempts to generate a more serious poem given the theme provided."""
 
     def __init__(self, wrapper):
+        """Initialized with an API wrapper for the poem generation."""
         self.wrapper = wrapper
 
 
     def interact(self, theme: str) -> str:
-        """
-        Takes as input the theme the user asked for and generates a poem using the API 
-        Args: The theme the user wants the Poet to write about
-        Returns: A poem using that theme
-        """
+        """Creates a 4 line love poem about the specified theme."""
 
         assert theme != "", "No theme was provided"
 
@@ -29,17 +27,16 @@ class GoodPoetStrategy(NPCStrategy):
     
 
 class FunnyPoetStrategy(NPCStrategy): 
+    """Generates a more humorous poem based on a given theme."""
 
-    def __init__(self, wrapper):
+
+    def __init__(self, wrapper): 
+        """Initializes with an API wrapper for poem generation."""
         self.wrapper = wrapper
 
 
     def interact(self, theme: str) -> str:
-        """
-        Takes as input the theme the user asked for and generates a poem using the API 
-        Args: The theme the user wants the Poet to write about
-        Returns: A poem using that theme
-        """
+        """Creates a 4 line funny love poem about the specified theme."""
 
         assert theme != "", "No theme was provided"
 

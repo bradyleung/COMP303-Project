@@ -17,12 +17,11 @@ if TYPE_CHECKING:
 
 ########################################################################################################
 class Tavernkeeper(NPC, SelectionInterface):
-    """
-    Creating the Tavern NPC by extending the NPC to also implement a selection interface then copying computer.
-    """
+    """NPC tavern owner who introduces other characters via a selection menu."""
+
     
     def __init__(self, tavern: TavernEnvironment, wrapper: APIWrapper, interact_factory: InteractCommandFactory):
-        
+        """Initializes with tavern environment, API wrapper, and interaction commands."""
         self.tavern = tavern
         self.wrapper = wrapper
         self.strategy = TavernkeeperStrategy(wrapper)
@@ -48,10 +47,12 @@ class Tavernkeeper(NPC, SelectionInterface):
 
 
     def select_option(self, player: "HumanPlayer", option: str) -> list[Message]:
+        """Executes selected menu option and returns resulting messages."""
         return self.__menu_options[option].execute(player.get_current_room(), player=player)
     
 
     # Method for when the player interacts with the Tavernkeeper
+    """Handles player interaction by showing introduction menu."""
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
         player.set_state(PlayerState.TALKING_TO.value, NPCNames.TAVERNKEEPER.value)
         player.set_current_menu(self)
@@ -62,9 +63,10 @@ class Tavernkeeper(NPC, SelectionInterface):
 
 ########################################################################################################
 class Adventurer(NPC):
+    """Boastful NPC who tells stories about displayed artifacts."""
 
     def __init__(self, tavern: TavernEnvironment, wrapper: APIWrapper, interact_factory: InteractCommandFactory):
-
+        """Initializes with multiple storytelling strategies."""
         self.tavern = tavern
         self.wrapper = wrapper
         self.interact_factory=interact_factory
@@ -85,6 +87,7 @@ class Adventurer(NPC):
 
 
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
+        """Generates story about this artifact if player has unlocked this NPC."""
 
         # Make sure the adventurer is unlocked
         unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value)
@@ -114,8 +117,10 @@ class Adventurer(NPC):
     
 ########################################################################################################
 class Scholar(NPC):
+    """Mysterious NPC who answers questions cryptically."""
 
     def __init__(self, tavern: TavernEnvironment, wrapper: APIWrapper):
+        """Initializes with different response strategies."""
 
         self.tavern = tavern
         self.wrapper = wrapper
@@ -135,6 +140,7 @@ class Scholar(NPC):
         )
 
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
+        """Sets up scholar interaction if player has unlocked this NPC."""
 
         unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value)
         if NPCNames.SCHOLAR.value not in unlocked_npcs:
@@ -165,8 +171,10 @@ class Scholar(NPC):
 
 ########################################################################################################
 class Poet(NPC, SelectionInterface):
+    """Romantic NPC who requests help writing his poems."""
 
     def __init__(self, tavern: TavernEnvironment, wrapper: APIWrapper, yesno_factory: YesNoCommandFactory):
+        """Initializes with different poem writing strategies."""
 
         self.tavern = tavern
         self.wrapper = wrapper
@@ -192,10 +200,11 @@ class Poet(NPC, SelectionInterface):
         self.__menu_options = menu_options
     
     def select_option(self, player: "HumanPlayer", option: str) -> list[Message]:
+        """Processes player's choice to help or not help the poet."""
         return self.__menu_options[option].execute(player.get_current_room(), player=player)
 
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
-        
+        """Handles poet interaction by showing help request menu."""
         unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value)
         if NPCNames.POET.value not in unlocked_npcs:
             return [ChatMessage(
@@ -215,8 +224,10 @@ class Poet(NPC, SelectionInterface):
 
 ##############################################xw##########################################################
 class Crush(NPC, SelectionInterface):
+    """Sarcastic NPC who receives poems from the poet."""
 
     def __init__(self, tavern: TavernEnvironment, wrapper: APIWrapper, interact_factory: InteractCommandFactory, yesno_factory: YesNoCommandFactory):
+        """Initializes with response strategy and interaction options."""
 
         self.tavern = tavern
         self.wrapper = wrapper
@@ -241,11 +252,12 @@ class Crush(NPC, SelectionInterface):
 
     
     def select_option(self, player: "HumanPlayer", option: str) -> list[Message]:
+        """Processes player's choice to deliver poem or not."""    
         return self.__menu_options[option].execute(player.get_current_room(), player=player)
 
 
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
-        
+        """Handles crush interaction, checking for existing poem."""        
         unlocked_npcs = player.get_state(PlayerState.UNLOCKED_NPCS.value)
         if NPCNames.CRUSH.value not in unlocked_npcs:
             return [ChatMessage(
@@ -273,6 +285,7 @@ class Trophy(MapObject, SelectionInterface):
     """An interactable trophy that can switch between different artifacts."""
     
     def __init__(self, tavern: TavernEnvironment, artifactFactory: ChangeArtifactFactory):
+        """Initializes with artifact options and change commands."""       
         super().__init__(f'tile/int_decor/skull', passable=False, z_index=0)
         self.tavern = tavern
         self.__menu_name = "Select an artifact to display:"
@@ -286,12 +299,13 @@ class Trophy(MapObject, SelectionInterface):
 
 
     def select_option(self, player: "HumanPlayer", option: str) -> list[Message]:
+        """Changes displayed artifact based on player selection."""
         return self.__menu_options[option].execute(player.get_current_room(), player=player)
         
 
     # Method for when the player interacts with the Object
     def player_interacted(self, player: "HumanPlayer") -> list[Message]:
-    
+        """Shows artifact description then change menu on interaction."""
         description = self.tavern.get_artifact_description()
 
         player.set_current_menu(self)

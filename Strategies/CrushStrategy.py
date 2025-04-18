@@ -1,15 +1,16 @@
 from .NPCStrategy import NPCStrategy
 
 class CrushStrategy(NPCStrategy):
+    """Strategy for a sarcastic NPC responding to romantic poems."""
+
 
     def __init__(self, wrapper):
+        """Initializes with an API wrapper for response generation."""
         self.wrapper = wrapper
 
 
     def interact(self, poem: str) -> str:
-        """
-        Takes as input the saved poem to the user's
-        """
+        """Generates a sarcastic response to the given poem (max 20 words)."""
 
         prompt = f"""
             You are a sarcastic and tired women in a midieval tavern where another regular has a crush on you and recites you poems.

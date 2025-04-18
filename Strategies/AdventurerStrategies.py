@@ -3,19 +3,15 @@ from .NPCStrategy import NPCStrategy
 
 
 class RegularAdventurerStrategy(NPCStrategy):
-    """ 
-    Takes as input both the Singleton instances and has a private field is_unlocked to determine how its interact method works. 
-    Acts as an observer on the 
-    """
+    """Strategy for a boastful adventurer generating stories about the artifacts."""
 
     def __init__(self, wrapper):
+        """Initializes with an API wrapper for story generation."""
         self.wrapper = wrapper
 
 
     def interact(self, current_artifact: str) -> str:
-        """
-        Takes as input the current_artifact to generate a story about it using the APIWrapper 
-        """
+        """Generates a short prideful story about the given artifact."""
         assert current_artifact != None, "current_artifact was not passed in"
         
         prompt = (
@@ -30,19 +26,16 @@ class RegularAdventurerStrategy(NPCStrategy):
 
  
 class NostalgicAdventurerStrategy(NPCStrategy):
-    """ 
-    Takes as input both the Singleton instances and has a private field is_unlocked to determine how its interact method works. 
-    Acts as an observer on the 
-    """
+    """Strategy for a nostalgic adventurer generating childhood artifact stories."""
 
     def __init__(self, wrapper):
+        """Initializes with an API wrapper for story generation."""
         self.wrapper = wrapper
 
 
     def interact(self, current_artifact: str) -> str:
-        """
-        Takes as input the current_artifact to generate a story about it using the APIWrapper 
-        """
+        """Generates a short nostalgic story about the given artifact."""
+        
         assert current_artifact != None, "current_artifact was not passed in"
         
         prompt = (
