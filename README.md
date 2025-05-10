@@ -1,5 +1,2 @@
 # COMP303-Project
-LLM Chatbot lounge meant to take place in a midieval tavern in the past.
-
-Tavernkeeper: stoic
-Storyteller: Reme,bers 
+Class project to be deployed within my professors' game. LLM chatbot lounge utilizing Mistral AI and design patterns learned in class. 
